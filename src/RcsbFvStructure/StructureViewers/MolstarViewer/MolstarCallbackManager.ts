@@ -16,7 +16,7 @@ import {Queries as Q} from "molstar/lib/mol-model/structure/query";
 import {PluginContext} from "molstar/lib/mol-plugin/context";
 import {Viewer} from "@rcsb/rcsb-molstar/build/src/viewer";
 import {Subscription} from "rxjs";
-import {DataContainer, DataContainerReader} from "../../../Utils/DataContainer";
+import {DataContainer, DataContainerReader} from "../../../utils/DataContainer";
 import {RcsbFvStateInterface} from "../../../RcsbFvState/RcsbFvStateInterface";
 
 type ModelMapType = Omit<ViewerModelMapManagerInterface<unknown,unknown>,'add'|'delete'>;

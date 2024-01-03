@@ -1,5 +1,5 @@
 
-import {DataContainer} from "../../../Utils/DataContainer";
+import {DataContainer} from "../../../utils/DataContainer";
 import {
     RcsbFvModulePublicInterface
 } from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvModule/RcsbFvModuleInterface";

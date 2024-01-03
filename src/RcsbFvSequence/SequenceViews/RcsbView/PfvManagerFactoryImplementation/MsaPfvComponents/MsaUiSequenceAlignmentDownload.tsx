@@ -1,10 +1,10 @@
 import * as React from "react";
-import {DataContainer} from "../../../../../Utils/DataContainer";
+import {DataContainer} from "../../../../../utils/DataContainer";
 import {
     RcsbFvModulePublicInterface
 } from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvModule/RcsbFvModuleInterface";
 import {RcsbFvStateInterface} from "../../../../../RcsbFvState/RcsbFvStateInterface";
-import {download, getFullDate, textToFile} from "../../../../../Utils/Download";
+import {download, getFullDate, textToFile} from "../../../../../utils/Download";
 
 export interface MsaUiSequenceAlignmentDownloadInterface {
     rcsbFvContainer: DataContainer<RcsbFvModulePublicInterface>;

@@ -9,7 +9,7 @@ import {unmount} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvBuilder";
 
 import {AbstractView, AbstractViewInterface} from "../AbstractView";
 import {OperatorInfo} from "../../../RcsbFvStructure/StructureViewerInterface";
-import {DataContainer} from "../../../Utils/DataContainer";
+import {DataContainer} from "../../../utils/DataContainer";
 import {
     PfvManagerInterface,
     PfvManagerFactoryInterface

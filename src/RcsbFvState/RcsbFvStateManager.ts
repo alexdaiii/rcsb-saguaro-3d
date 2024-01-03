@@ -7,7 +7,7 @@ import {RcsbFvStateInterface, RcsbFvStateType} from "./RcsbFvStateInterface";
 import {RcsbFvSelectorManager} from "./RcsbFvSelectorManager";
 import {AssemblyModelSate} from "./AssemblyModelSate";
 import {Subject, Subscription} from "rxjs";
-import {DataContainer} from "../Utils/DataContainer";
+import {DataContainer} from "../utils/DataContainer";
 import {OperatorInfo} from "../RcsbFvStructure/StructureViewerInterface";
 
 export class RcsbFvStateManager implements RcsbFvStateInterface {

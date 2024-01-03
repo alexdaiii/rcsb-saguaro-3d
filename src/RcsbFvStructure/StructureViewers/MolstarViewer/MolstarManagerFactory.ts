@@ -3,7 +3,7 @@ import {LoadMolstarInterface, MolstarActionManager} from "./MolstarActionManager
 import {Viewer, ViewerProps} from "@rcsb/rcsb-molstar/build/src/viewer";
 import {MolstarModelMapManager} from "./MolstarModelMapManager";
 import {MolstarCallbackManager} from "./MolstarCallbackManager";
-import {DataContainer} from "../../../Utils/DataContainer";
+import {DataContainer} from "../../../utils/DataContainer";
 import {RcsbFvStateInterface} from "../../../RcsbFvState/RcsbFvStateInterface";
 
 export class MolstarManagerFactory<P,L> implements ViewerManagerFactoryInterface<LoadMolstarInterface<P,L>,L,{viewerElement:string|HTMLElement,viewerProps:Partial<ViewerProps>}> {

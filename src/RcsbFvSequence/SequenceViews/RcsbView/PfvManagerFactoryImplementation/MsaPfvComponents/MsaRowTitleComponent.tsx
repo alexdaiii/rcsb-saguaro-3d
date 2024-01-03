@@ -14,7 +14,7 @@ import {MsaRowTitleCheckboxComponent} from "./MsaRowTitleCheckboxComponent";
 import {MouseEvent} from "react";
 import {Property} from "csstype";
 import {RcsbFvStateInterface} from "../../../../../RcsbFvState/RcsbFvStateInterface";
-import {parseEntityOrInstance} from "../../../../../Utils/RcsbIdParser";
+import {parseEntityOrInstance} from "../../../../../utils/RcsbIdParser";
 import {RcsbFvRowConfigInterface} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
 
 interface MsaRowTitleInterface extends RcsbFvRowTitleInterface {

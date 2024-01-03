@@ -1,4 +1,4 @@
-import {DataContainer} from "../../../Utils/DataContainer";
+import {DataContainer} from "../../../utils/DataContainer";
 import {
     RcsbFvAdditionalConfig,
     RcsbFvModulePublicInterface

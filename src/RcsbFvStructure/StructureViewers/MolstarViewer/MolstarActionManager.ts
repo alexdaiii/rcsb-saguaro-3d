@@ -6,7 +6,7 @@ import {
     ViewerModelMapManagerInterface
 } from "../../StructureViewerInterface";
 import {Viewer} from "@rcsb/rcsb-molstar/build/src/viewer";
-import {DataContainer} from "../../../Utils/DataContainer";
+import {DataContainer} from "../../../utils/DataContainer";
 import {Structure, StructureElement, StructureSelection} from "molstar/lib/mol-model/structure";
 import {Expression} from "molstar/lib/commonjs/mol-script/language/expression";
 import {MolScriptBuilder as MS} from "molstar/lib/mol-script/language/builder";

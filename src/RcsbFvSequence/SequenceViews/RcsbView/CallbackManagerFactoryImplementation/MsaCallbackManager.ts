@@ -9,8 +9,8 @@ import {
 } from "@rcsb/rcsb-api-tools/build/RcsbGraphQL/Types/Borrego/GqlTypes";
 import {RegionSelectionInterface} from "../../../../RcsbFvState/RcsbFvSelectorManager";
 import {ChainInfo, SaguaroRegionList} from "../../../../RcsbFvStructure/StructureViewerInterface";
-import {AlignmentMapper as AM} from "../../../../Utils/AlignmentMapper";
-import {DataContainer} from "../../../../Utils/DataContainer";
+import {AlignmentMapper as AM} from "../../../../utils/AlignmentMapper";
+import {DataContainer} from "../../../../utils/DataContainer";
 import {TagDelimiter} from "@rcsb/rcsb-api-tools/build/RcsbUtils/TagDelimiter";
 import {RcsbFvTrackDataElementInterface} from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
 

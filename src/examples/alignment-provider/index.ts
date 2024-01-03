@@ -1,4 +1,4 @@
-import {RcsbFv3DAlignmentProvider} from "../../RcsbFv3D/RcsbFv3DAlignmentProvider";
+import {RcsbFv3DAlignmentProvider} from "../../RcsbFv3D/providers/RcsbFv3DAlignmentProvider";
 import {dataProvider, loadParamsProvider} from "./providers/ExternalAlignmentProvider";
 
 document.addEventListener("DOMContentLoaded", function(event) {

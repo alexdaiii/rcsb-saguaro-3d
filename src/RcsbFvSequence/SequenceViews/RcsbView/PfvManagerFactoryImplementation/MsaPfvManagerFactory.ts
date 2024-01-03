@@ -18,12 +18,12 @@ import {MsaRowMarkComponent} from "./MsaPfvComponents/MsaRowMarkComponent";
 import {
     PolymerEntityInstanceInterface
 } from "@rcsb/rcsb-saguaro-app/lib/RcsbCollectTools/DataCollectors/PolymerEntityInstancesCollector";
-import {DataContainer} from "../../../../Utils/DataContainer";
+import {DataContainer} from "../../../../utils/DataContainer";
 import {MsaUiSortComponent} from "./MsaPfvComponents/MsaUiSortComponent";
 import {ActionMethods} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvUI/Helper/ActionMethods";
 import {MsaUiSequenceAlignmentDownload} from "./MsaPfvComponents/MsaUiSequenceAlignmentDownload";
 import {MsaUiStructureDownload} from "./MsaPfvComponents/MsaUiStructureDownload";
-import {parseEntityOrInstance} from "../../../../Utils/RcsbIdParser"
+import {parseEntityOrInstance} from "../../../../utils/RcsbIdParser"
 
 export interface MsaPfvManagerInterface<T extends any[]> {
     id:string;

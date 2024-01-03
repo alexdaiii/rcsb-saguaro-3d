@@ -18,7 +18,7 @@ import {
 import {
     InterfaceInstanceTranslate
 } from "@rcsb/rcsb-saguaro-app/lib/RcsbUtils/Translators/InterfaceInstanceTranslate";
-import {DataContainer} from "../../../../Utils/DataContainer";
+import {DataContainer} from "../../../../utils/DataContainer";
 import {
     BuildPfvInterface,
     AbstractPfvManager,

@@ -20,7 +20,7 @@ import {StructureLoaderInterface} from "../StructureUtils/StructureLoaderInterfa
 import {createSelectionExpressions} from "@rcsb/rcsb-molstar/build/src/viewer/helpers/selection";
 import {RegionSelectionInterface} from "../../RcsbFvState/RcsbFvSelectorManager";
 import {TargetAlignment} from "@rcsb/rcsb-api-tools/build/RcsbGraphQL/Types/Borrego/GqlTypes";
-import {FunctionCall} from "../../Utils/FunctionCall";
+import {FunctionCall} from "../../utils/FunctionCall";
 import onetimeCall = FunctionCall.onetimeCall;
 import {TagDelimiter} from "@rcsb/rcsb-api-tools/build/RcsbUtils/TagDelimiter";
 
