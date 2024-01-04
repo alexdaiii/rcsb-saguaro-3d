@@ -1,10 +1,10 @@
 # rcsb-saguaro-3D
 
 RCSB Saguaro Web 3D is an open-source library built on the top of the [RCSB Saguaro 1D Feature Viewer](https://rcsb.github.io/rcsb-saguaro)
-and [RCSB Molstar](https://github.com/rcsb/rcsb-Molstar) designed to display protein features at the [RCSB Web Site](https://www.rcsb.org). 
-The package collects protein annotations from the [1D Coordinate Server](https://1d-coordinates.rcsb.org) 
-and the main [RCSB Data API](https://data.rcsb.org) and generates Protein Feature Summaries. 
-The package allows access to RCSB Saguaro and Molstar methods to add or change the displayed data. 
+and [RCSB Molstar](https://github.com/rcsb/rcsb-Molstar) designed to display protein features at the [RCSB Web Site](https://www.rcsb.org).
+The package collects protein annotations from the [1D Coordinate Server](https://1d-coordinates.rcsb.org)
+and the main [RCSB Data API](https://data.rcsb.org) and generates Protein Feature Summaries.
+The package allows access to RCSB Saguaro and Molstar methods to add or change the displayed data.
 
 When using rcsb-saguaro, please cite:
 
@@ -287,20 +287,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 --->
+
 ### CDN JavaScript
+
 `<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-3d@4.0.0/build/app.min.js" type="text/javascript"></script>`
 
 ### Node Module Instalation
+
 `npm install @rcsb/rcsb-saguaro-3d`
 
 ## Building & Running
 
 ### Build app
+
     npm install
     npm run buildApp
 
 ### Testing
+
 Different testing example are available in the `src/examples` folder
+
 - `npm install`
 - `npm run devServer`
 
@@ -309,57 +315,60 @@ Go to:
 - `http://localhost:9000/assembly.html`
 - `http://localhost:9000/assembly-interface.html`
 - `http://localhost:9000/uniprot.html`
-...
+  ...
 
 ### Library Documentation
+
 - TypeScript classes and documentation can be found [here](https://rcsb.github.io/rcsb-saguaro-3d/index.html)
 
 ### Main Classes and Interfaces
 
 #### Assembly view
-Class **`RcsbFv3DAssembly`** (`src/RcsbFv3D/RcsbFv3DAssembly.tsx`) builds a predefined 1D/3D view for PDB assemblies. This method is used in the RCSB PDB web portal 
-to display 1D positional features of PDB models (ex: [4hhb](https://www.rcsb.org/3d-sequence/4HHB)). Its configuration requires a single PDB Id. 
+
+Class **`RcsbFv3DAssembly`** (`src/RcsbFv3D/RcsbFv3DAssembly.tsx`) builds a predefined 1D/3D view for PDB assemblies. This method is used in the RCSB PDB web portal
+to display 1D positional features of PDB models (ex: [4hhb](https://www.rcsb.org/3d-sequence/4HHB)). Its configuration requires a single PDB Id.
 In addition, `additionalConfig` allows to configure the feature viewer as describe in rcsb-saguaro-app [API](https://rcsb.github.io/rcsb-saguaro-app/).
 This parameter exposes the board configuration through the attribute `boardConfig` ([ref](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvBoardConfigInterface.html)).
 The component will be mounted in the html element with id `elementId`. If there is no html element in the current document,
-a new div element will be added, and the component will be displayed in full screen mode. 
+a new div element will be added, and the component will be displayed in full screen mode.
 
 ```typescript
 export interface RcsbFv3DAssemblyInterface {
-    elementId?: string;
-    config: {
-        entryId: string;
-        assemblyId?: string;
-        title?: string;
-        subtitle?: string;
-    };
-    additionalConfig?: RcsbFv3DAssemblyAdditionalConfig;
-    instanceSequenceConfig?: InstanceSequenceConfig;
-    molstarProps?: Partial<ViewerProps>;
-    cssConfig?: RcsbFv3DCssConfig;
+  elementId?: string;
+  config: {
+    entryId: string;
+    assemblyId?: string;
+    title?: string;
+    subtitle?: string;
+  };
+  additionalConfig?: RcsbFv3DAssemblyAdditionalConfig;
+  instanceSequenceConfig?: InstanceSequenceConfig;
+  molstarProps?: Partial<ViewerProps>;
+  cssConfig?: RcsbFv3DCssConfig;
 }
 ```
+
 Source code example can be found in `src/examples/assembly/index.tsx`.
+
 #### Custom view
 
 Class **`RcsbFv3DCustom`** file `src/RcsbFv3D/RcsbFv3DCustom.tsx` builds a customized view between one or more feature viewers and a single Molstar plugin.
-The configuration interface encodes the parameters for the feature viewers (`sequencePanelConfig`), the Molstar plugin (`structurePanelConfig`) and 
+The configuration interface encodes the parameters for the feature viewers (`sequencePanelConfig`), the Molstar plugin (`structurePanelConfig`) and
 their dynamic interaction.
 
 ```typescript
-interface RcsbFv3DCustomInterface  {
-    elementId?: string;
-    structurePanelConfig: RcsbFvStructureConfigInterface<
-        LoadMolstarInterface,
-        { viewerProps:Partial<ViewerProps> }
-    >;
-    sequencePanelConfig: {
-        config: CustomViewInterface<LoadMolstarInterface>;
-        title?: string;
-        subtitle?: string;
-    }
-    cssConfig?: RcsbFv3DCssConfig;
-
+interface RcsbFv3DCustomInterface {
+  elementId?: string;
+  structurePanelConfig: RcsbFvStructureConfigInterface<
+    LoadMolstarInterface,
+    {viewerProps: Partial<ViewerProps>}
+  >;
+  sequencePanelConfig: {
+    config: CustomViewInterface<LoadMolstarInterface>;
+    title?: string;
+    subtitle?: string;
+  };
+  cssConfig?: RcsbFv3DCssConfig;
 }
 ```
 
@@ -371,64 +380,72 @@ The structural panel configuration `structurePanelConfig: RcsbFvStructureConfigI
 and the Molstar plugin. A full description of the structural panel configuration can be found [here](https://rcsb.github.io/rcsb-saguaro-3d/interfaces/RcsbFvStructure_RcsbFvStructure.RcsbFvStructureConfigInterface.html)
 
 ```typescript
-interface RcsbFvStructureConfigInterface<R,S> {
-    loadConfig: R | Array<R>;
-    structureViewerConfig: S;
+interface RcsbFvStructureConfigInterface<R, S> {
+  loadConfig: R | Array<R>;
+  structureViewerConfig: S;
 }
 ```
 
-The attribute `loadConfig: LoadMolstarInterface` encodes the configuration for loading the 3D structural data. 
- 
+The attribute `loadConfig: LoadMolstarInterface` encodes the configuration for loading the 3D structural data.
+
 ```typescript
 interface LoadMolstarInterface {
-    loadMethod: LoadMethod;
-    loadParams: LoadParams;
+  loadMethod: LoadMethod;
+  loadParams: LoadParams;
 }
 ```
-- `loadMethod: LoadMethod`  is an enumerated value  that indicates the source of the structural models
+
+- `loadMethod: LoadMethod` is an enumerated value that indicates the source of the structural models
+
 ```typescript
 enum LoadMethod {
-    loadPdbId = "loadPdbId",
-    loadStructureFromUrl = "loadStructureFromUrl"
+  loadPdbId = "loadPdbId",
+  loadStructureFromUrl = "loadStructureFromUrl",
 }
 ```
+
 - `loadParams: LoadParams` encode the parameters needed to collect and load the data. If `id` is provided, it can be used to identify the 3D models
-in the methods defined by `SaguaroPluginPublicInterface`
+  in the methods defined by `SaguaroPluginPublicInterface`
 
 ```typescript
 interface LoadParams {
-    id?: string;
-    pdbId?: string;
-    url?: string,
-    isBinary?: boolean
+  id?: string;
+  pdbId?: string;
+  url?: string;
+  isBinary?: boolean;
 }
 ```
 
 ##### Sequence panel
 
-The sequence panel organizes information in different blocks where each block encodes the configuration 
-(`blockConfig`) to display one or more feature viewers. Only a single block can be displayed at a time. The optional parameter `blockSelectorElement` defines a React component 
-that renders the html element used to change the displayed block. The class `BlockSelectorManager` is used to select which block is 
-displayed are those that are hidden. For example, `blockSelectorManager.setActiveBlock("myBlock")` will display the feature viewers defined in the block 
-with `blockId` `"myBlock"` (see `FeatureBlockInterface`) and hide the others. Additionally, `blockChangeCallback` defines a function that will be executed 
+The sequence panel organizes information in different blocks where each block encodes the configuration
+(`blockConfig`) to display one or more feature viewers. Only a single block can be displayed at a time. The optional parameter `blockSelectorElement` defines a React component
+that renders the html element used to change the displayed block. The class `BlockSelectorManager` is used to select which block is
+displayed are those that are hidden. For example, `blockSelectorManager.setActiveBlock("myBlock")` will display the feature viewers defined in the block
+with `blockId` `"myBlock"` (see `FeatureBlockInterface`) and hide the others. Additionally, `blockChangeCallback` defines a function that will be executed
 when the displayed block changes.
 
 ```typescript
 interface CustomViewInterface {
-    blockConfig: FeatureBlockInterface | Array<FeatureBlockInterface>;
-    blockSelectorElement?: (blockSelector: BlockSelectorManager) => JSX.Element;
-    blockChangeCallback?: (plugin: StructureViewerPublicInterface, pfvList: Array<RcsbFv>, selection: RcsbFvSelectorManager) => void;
+  blockConfig: FeatureBlockInterface | Array<FeatureBlockInterface>;
+  blockSelectorElement?: (blockSelector: BlockSelectorManager) => JSX.Element;
+  blockChangeCallback?: (
+    plugin: StructureViewerPublicInterface,
+    pfvList: Array<RcsbFv>,
+    selection: RcsbFvSelectorManager,
+  ) => void;
 }
-``` 
+```
 
 Source code example can be found in `src/examples/multiple-chain/index.tsx`.
 
 Each block must contain a unique block identifier (`blockId`) and the configuration for all the feature viewers that will be rendered
 when the block is activated (`featureViewConfig`).
+
 ```typescript
 interface FeatureBlockInterface {
-    blockId:string;
-    featureViewConfig: Array<FeatureViewInterface> | FeatureViewInterface;
+  blockId: string;
+  featureViewConfig: Array<FeatureViewInterface> | FeatureViewInterface;
 }
 ```
 
@@ -442,31 +459,50 @@ The interface for each feature viewer defines its dynamic interaction with the M
 
 ```typescript
 export interface FeatureViewInterface {
-    boardId?:string;
-    boardConfig: RcsbFvBoardConfigInterface;
-    rowConfig: Array<RcsbFvRowConfigInterface>;
-    sequenceSelectionChangeCallback: (plugin: StructureViewerPublicInterface, selectorManager: RcsbFvSelectorManager, sequenceRegion: Array<RcsbFvTrackDataElementInterface>) => void;
-    sequenceElementClickCallback: (plugin: StructureViewerPublicInterface, selectorManager: RcsbFvSelectorManager, d: RcsbFvTrackDataElementInterface) => void;
-    sequenceHoverCallback: (plugin: StructureViewerPublicInterface, selectorManager: RcsbFvSelectorManager, hoverRegion: Array<RcsbFvTrackDataElementInterface>) => void;
-    structureSelectionCallback: (plugin: StructureViewerPublicInterface, pfv: RcsbFv, selectorManager: RcsbFvSelectorManager) => void;
-    structureHoverCallback: (plugin: StructureViewerPublicInterface, pfv: RcsbFv, selectorManager: RcsbFvSelectorManager) => void;
+  boardId?: string;
+  boardConfig: RcsbFvBoardConfigInterface;
+  rowConfig: Array<RcsbFvRowConfigInterface>;
+  sequenceSelectionChangeCallback: (
+    plugin: StructureViewerPublicInterface,
+    selectorManager: RcsbFvSelectorManager,
+    sequenceRegion: Array<RcsbFvTrackDataElementInterface>,
+  ) => void;
+  sequenceElementClickCallback: (
+    plugin: StructureViewerPublicInterface,
+    selectorManager: RcsbFvSelectorManager,
+    d: RcsbFvTrackDataElementInterface,
+  ) => void;
+  sequenceHoverCallback: (
+    plugin: StructureViewerPublicInterface,
+    selectorManager: RcsbFvSelectorManager,
+    hoverRegion: Array<RcsbFvTrackDataElementInterface>,
+  ) => void;
+  structureSelectionCallback: (
+    plugin: StructureViewerPublicInterface,
+    pfv: RcsbFv,
+    selectorManager: RcsbFvSelectorManager,
+  ) => void;
+  structureHoverCallback: (
+    plugin: StructureViewerPublicInterface,
+    pfv: RcsbFv,
+    selectorManager: RcsbFvSelectorManager,
+  ) => void;
 }
 ```
 
 `plugin: SaguaroPluginPublicInterface` exposes the interface to interact with the Molstar plugin
-and change model representations ([ref](https://rcsb.github.io/rcsb-saguaro-3d/interfaces/RcsbFv3DAssembly._internal_.StructureViewerPublicInterface.html)). 
-It provides multiple methods such as hide, display or select to modify how structural data is displayed. The parameter `pfv: RcsbFv` 
-allows to access the feature viewer API ([ref](https://rcsb.github.io/rcsb-saguaro/classes/RcsbFv.html)). It exposes methods to modify 
+and change model representations ([ref](https://rcsb.github.io/rcsb-saguaro-3d/interfaces/RcsbFv3DAssembly._internal_.StructureViewerPublicInterface.html)).
+It provides multiple methods such as hide, display or select to modify how structural data is displayed. The parameter `pfv: RcsbFv`
+allows to access the feature viewer API ([ref](https://rcsb.github.io/rcsb-saguaro/classes/RcsbFv.html)). It exposes methods to modify
 selections, change board configuration, zoom or adding new tracks.
- 
+
 Source code example can be found in `src/examples/single-chain/index.tsx`
 
-Contributing
----
+## Contributing
+
 All contributions are welcome. Please, make a pull request or open an issue.
 
-License
----
+## License
 
 The MIT License
 

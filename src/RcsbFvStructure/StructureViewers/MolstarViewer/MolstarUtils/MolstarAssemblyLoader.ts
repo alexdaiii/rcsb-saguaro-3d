@@ -1,44 +1,61 @@
 /*
-* Copyright (c) 2021 RCSB PDB and contributors, licensed under MIT, See LICENSE file for more info.
-* @author Joan Segura Mora <joan.segura@rcsb.org>
-*/
-
+ * Copyright (c) 2021 RCSB PDB and contributors, licensed under MIT, See LICENSE file for more info.
+ * @author Joan Segura Mora <joan.segura@rcsb.org>
+ */
 import {StructureLoaderInterface} from "../../../StructureUtils/StructureLoaderInterface";
 import {ViewerActionManagerInterface} from "../../../StructureViewerInterface";
-import {LoadMethod, LoadMolstarInterface, LoadMolstarReturnType} from "../MolstarActionManager";
 import {
-    AssemblyTrajectoryParamsType,
-    AssemblyTrajectoryPresetProvider
+  LoadMethod,
+  LoadMolstarInterface,
+  LoadMolstarReturnType,
+} from "../MolstarActionManager";
+import {
+  AssemblyTrajectoryParamsType,
+  AssemblyTrajectoryPresetProvider,
 } from "../TrajectoryPresetProvider/AssemblyTrajectoryPresetProvider";
 
-export class MolstarAssemblyLoader implements StructureLoaderInterface<
-    [ViewerActionManagerInterface<LoadMolstarInterface<AssemblyTrajectoryParamsType,LoadMolstarReturnType>,LoadMolstarReturnType>],
-    LoadMolstarReturnType
-> {
+export class MolstarAssemblyLoader
+  implements
+    StructureLoaderInterface<
+      [
+        ViewerActionManagerInterface<
+          LoadMolstarInterface<
+            AssemblyTrajectoryParamsType,
+            LoadMolstarReturnType
+          >,
+          LoadMolstarReturnType
+        >,
+      ],
+      LoadMolstarReturnType
+    >
+{
+  private readonly entryId: string;
+  private readonly assemblyId: string;
+  private readonly asymId?: string;
+  constructor(config: {entryId: string; assemblyId: string; asymId?: string}) {
+    this.entryId = config.entryId;
+    this.assemblyId = config.assemblyId;
+    this.asymId = config.asymId;
+  }
 
-    private readonly entryId: string;
-    private readonly assemblyId: string;
-    private readonly asymId?: string;
-    constructor(config: {entryId: string; assemblyId: string; asymId?:string;}){
-        this.entryId = config.entryId;
-        this.assemblyId = config.assemblyId;
-        this.asymId = config.asymId;
-    }
-
-    async load(structureViewer: ViewerActionManagerInterface<LoadMolstarInterface<AssemblyTrajectoryParamsType, LoadMolstarReturnType>, LoadMolstarReturnType>): Promise<LoadMolstarReturnType|undefined> {
-        return await structureViewer.load({
-            loadMethod: LoadMethod.loadPdbId,
-            loadParams: {
-                reprProvider: AssemblyTrajectoryPresetProvider,
-                entryId: this.entryId,
-                id: this.entryId,
-                params: {
-                    assemblyId: this.assemblyId,
-                    modelIndex: 0,
-                    asymId: this.asymId
-                }
-            }
-        });
-    }
-
+  async load(
+    structureViewer: ViewerActionManagerInterface<
+      LoadMolstarInterface<AssemblyTrajectoryParamsType, LoadMolstarReturnType>,
+      LoadMolstarReturnType
+    >,
+  ): Promise<LoadMolstarReturnType | undefined> {
+    return await structureViewer.load({
+      loadMethod: LoadMethod.loadPdbId,
+      loadParams: {
+        reprProvider: AssemblyTrajectoryPresetProvider,
+        entryId: this.entryId,
+        id: this.entryId,
+        params: {
+          assemblyId: this.assemblyId,
+          modelIndex: 0,
+          asymId: this.asymId,
+        },
+      },
+    });
+  }
 }

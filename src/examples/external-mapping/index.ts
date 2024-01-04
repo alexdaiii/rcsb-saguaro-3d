@@ -1,17 +1,18 @@
-import { RcsbFv3DCustom } from "../../RcsbFv3D/renderers/RcsbFv3DCustom";
-import { RcsbFvStructureConfigInterface } from "../../RcsbFvStructure/RcsbFvStructure";
+import {ViewerProps} from "@rcsb/rcsb-molstar/build/src/viewer";
+import {PluginStateObject} from "molstar/lib/mol-plugin-state/objects";
+
+import {RcsbFv3DCustom} from "../../RcsbFv3D/renderers/RcsbFv3DCustom";
 import {
   CustomViewInterface,
   FeatureBlockInterface,
 } from "../../RcsbFvSequence/SequenceViews/CustomView/CustomView";
-import { RcsbRepresentationPreset } from "./TrajectoryPreset";
-import { PluginStateObject } from "molstar/lib/mol-plugin-state/objects";
-import { fvConfig1, fvConfig2 } from "./FeatureViewerConfig";
+import {RcsbFvStructureConfigInterface} from "../../RcsbFvStructure/RcsbFvStructure";
 import {
   LoadMethod,
   LoadMolstarInterface,
 } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarActionManager";
-import { ViewerProps } from "@rcsb/rcsb-molstar/build/src/viewer";
+import {fvConfig1, fvConfig2} from "./FeatureViewerConfig";
+import {RcsbRepresentationPreset} from "./TrajectoryPreset";
 
 const block: FeatureBlockInterface<LoadMolstarInterface<any, any>, any> = {
   blockId: "MyBlock_1",
@@ -30,7 +31,7 @@ const sequenceConfig = {
 
 const molstarConfig: RcsbFvStructureConfigInterface<
   LoadMolstarInterface<any, any>,
-  { viewerProps: Partial<ViewerProps> }
+  {viewerProps: Partial<ViewerProps>}
 > = {
   loadConfig: [
     {

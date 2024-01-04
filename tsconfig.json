@@ -1,24 +1,26 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "target": "es6",
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "sourceMap": false,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "module": "esnext",
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    // original lib does not initialize all properties in constructor
+    // TODO: remove this once the original lib is fixed
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "jsx": "react-jsx",
-    "lib": [ "dom", "es2020"  ],
-    "rootDir": "src",
-    "outDir": "lib"
+    "module": "ESNext",
+    "declaration": true,
+    "declarationDir": "types",
+    "sourceMap": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+//    "emitDeclarationOnly": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [ "src" ]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "src/**/*.test.tsx",
+    "src/**/*.stories.tsx"
+  ]
 }

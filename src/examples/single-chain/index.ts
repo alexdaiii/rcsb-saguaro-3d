@@ -1,26 +1,27 @@
-import { RcsbFv3DCustom } from "../../RcsbFv3D/renderers/RcsbFv3DCustom";
-import { RcsbFvStructureConfigInterface } from "../../RcsbFvStructure/RcsbFvStructure";
+import {ViewerProps} from "@rcsb/rcsb-molstar/build/src/viewer";
+import {RcsbFvTrackDataElementInterface} from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+import {RcsbFv} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFv";
+import {RcsbFvRowConfigInterface} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayTypes} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+
+import {RcsbFv3DCustom} from "../../RcsbFv3D/renderers/RcsbFv3DCustom";
 import {
   CustomViewInterface,
   FeatureBlockInterface,
   FeatureViewInterface,
 } from "../../RcsbFvSequence/SequenceViews/CustomView/CustomView";
-import { RegionSelectionInterface } from "../../RcsbFvState/RcsbFvSelectorManager";
+import {RegionSelectionInterface} from "../../RcsbFvState/RcsbFvSelectorManager";
+import {RcsbFvStateManager} from "../../RcsbFvState/RcsbFvStateManager";
+import {RcsbFvStructureConfigInterface} from "../../RcsbFvStructure/RcsbFvStructure";
 import {
-  StructureViewerPublicInterface,
   SaguaroRegionList,
+  StructureViewerPublicInterface,
 } from "../../RcsbFvStructure/StructureViewerInterface";
 import {
   LoadMethod,
   LoadMolstarInterface,
   LoadMolstarReturnType,
 } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarActionManager";
-import { ViewerProps } from "@rcsb/rcsb-molstar/build/src/viewer";
-import { RcsbFvStateManager } from "../../RcsbFvState/RcsbFvStateManager";
-import { RcsbFvRowConfigInterface } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
-import { RcsbFvDisplayTypes } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import { RcsbFvTrackDataElementInterface } from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
-import { RcsbFv } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFv";
 
 const rowConfig: Array<RcsbFvRowConfigInterface> = [
   {
@@ -161,7 +162,7 @@ const fvConfig: FeatureViewInterface<
       pfv.clearSelection("select");
       plugin.resetCamera();
     } else {
-      pfv.setSelection({ elements: sel.regions, mode: "select" });
+      pfv.setSelection({elements: sel.regions, mode: "select"});
     }
   },
   structureHoverCallback: (
@@ -179,7 +180,7 @@ const fvConfig: FeatureViewInterface<
         "hover",
       );
     if (sel == null) pfv.clearSelection("hover");
-    else pfv.setSelection({ elements: sel.regions, mode: "hover" });
+    else pfv.setSelection({elements: sel.regions, mode: "hover"});
   },
 };
 
@@ -206,7 +207,7 @@ const sequenceConfig = {
 
 const molstarConfig: RcsbFvStructureConfigInterface<
   LoadMolstarInterface<unknown, unknown>,
-  { viewerProps: Partial<ViewerProps> }
+  {viewerProps: Partial<ViewerProps>}
 > = {
   loadConfig: {
     loadMethod: LoadMethod.loadPdbId,

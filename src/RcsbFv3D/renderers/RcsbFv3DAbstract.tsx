@@ -1,13 +1,14 @@
-import { createRoot, Root } from "react-dom/client";
-import { RcsbFv3DComponent, RcsbFv3DCssConfig } from "../components";
-import { RcsbFvStructureConfigInterface } from "../../RcsbFvStructure/RcsbFvStructure";
-import { RcsbFvSequenceInterface } from "../../RcsbFvSequence/RcsbFvSequence";
-import { EventType, RcsbFvContextManager } from "../../RcsbFvContextManager";
-import { PluginContext } from "molstar/lib/mol-plugin/context";
-import { CSSProperties } from "react";
-import { StructureViewerInterface } from "../../RcsbFvStructure/StructureViewerInterface";
-import { StructureViewerBehaviourObserverInterface } from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
-import { AbstractViewInterface } from "../../RcsbFvSequence/SequenceViews/AbstractView";
+import {PluginContext} from "molstar/lib/mol-plugin/context";
+import {CSSProperties} from "react";
+import {Root, createRoot} from "react-dom/client";
+
+import {EventType, RcsbFvContextManager} from "../../RcsbFvContextManager";
+import {RcsbFvSequenceInterface} from "../../RcsbFvSequence/RcsbFvSequence";
+import {AbstractViewInterface} from "../../RcsbFvSequence/SequenceViews/AbstractView";
+import {RcsbFvStructureConfigInterface} from "../../RcsbFvStructure/RcsbFvStructure";
+import {StructureViewerBehaviourObserverInterface} from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
+import {StructureViewerInterface} from "../../RcsbFvStructure/StructureViewerInterface";
+import {RcsbFv3DComponent, RcsbFv3DCssConfig} from "../components";
 
 export interface RcsbFv3DAbstractInterface<T, R, L, S, U> {
   elementId: string;

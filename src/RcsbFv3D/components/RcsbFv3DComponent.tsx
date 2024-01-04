@@ -1,30 +1,29 @@
+import {PluginContext} from "molstar/lib/mol-plugin/context";
 import * as React from "react";
-import classes from "../../scss/RcsbFvStyle.module.scss";
+import {CSSProperties, MouseEvent} from "react";
+import {Subscription} from "rxjs";
 
-import { StructureViewerInterface } from "../../RcsbFvStructure/StructureViewerInterface";
-
-import "../../scss/RcsbFvMolstarStyle.module.scss";
-import {
-  RcsbFvSequence,
-  RcsbFvSequenceInterface,
-} from "../../RcsbFvSequence/RcsbFvSequence";
-import {
-  RcsbFvStructure,
-  RcsbFvStructureConfigInterface,
-} from "../../RcsbFvStructure/RcsbFvStructure";
 import {
   EventType,
   RcsbFvContextManager,
   RcsbFvContextManagerInterface,
   UpdateConfigInterface,
 } from "../../RcsbFvContextManager";
-import { Subscription } from "rxjs";
-import { PluginContext } from "molstar/lib/mol-plugin/context";
-import { CSSProperties, MouseEvent } from "react";
-import { StructureViewerBehaviourObserverInterface } from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
-import { RcsbFvStateInterface } from "../../RcsbFvState/RcsbFvStateInterface";
-import { RcsbFvStateManager } from "../../RcsbFvState/RcsbFvStateManager";
-import { RcsbFv3DCssConfig } from "./utils";
+import {
+  RcsbFvSequence,
+  RcsbFvSequenceInterface,
+} from "../../RcsbFvSequence/RcsbFvSequence";
+import {RcsbFvStateInterface} from "../../RcsbFvState/RcsbFvStateInterface";
+import {RcsbFvStateManager} from "../../RcsbFvState/RcsbFvStateManager";
+import {
+  RcsbFvStructure,
+  RcsbFvStructureConfigInterface,
+} from "../../RcsbFvStructure/RcsbFvStructure";
+import {StructureViewerBehaviourObserverInterface} from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
+import {StructureViewerInterface} from "../../RcsbFvStructure/StructureViewerInterface";
+import "../../scss/RcsbFvMolstarStyle.module.scss";
+import classes from "../../scss/RcsbFvStyle.module.scss";
+import {RcsbFv3DCssConfig} from "./utils";
 
 export interface RcsbFv3DComponentProps<T, R, L, S, U> {
   structurePanelConfig: RcsbFvStructureConfigInterface<R, S>;
@@ -48,7 +47,7 @@ interface RcsbFv3DComponentState<T, R, S, U> {
 }
 
 export class RcsbFv3DComponent<T, R, L, S, U> extends React.Component<
-  RcsbFv3DComponentProps<T, R, L, S, U> & { resolve: () => void },
+  RcsbFv3DComponentProps<T, R, L, S, U> & {resolve: () => void},
   RcsbFv3DComponentState<T, R, S, U>
 > {
   readonly state: RcsbFv3DComponentState<T, R, S, U> = {
@@ -65,7 +64,7 @@ export class RcsbFv3DComponent<T, R, L, S, U> extends React.Component<
   private static mainDivCssConfig(
     css: CSSProperties | undefined,
   ): CSSProperties {
-    return { ...{}, ...css };
+    return {...{}, ...css};
   }
 
   render(): JSX.Element {
@@ -160,7 +159,7 @@ export class RcsbFv3DComponent<T, R, L, S, U> extends React.Component<
     const cssWidth: string = widthFr.toString() + "%";
     const cssHeight: string = "100%";
     return {
-      ...(this.useDefaultCss() ? { width: cssWidth, height: cssHeight } : {}),
+      ...(this.useDefaultCss() ? {width: cssWidth, height: cssHeight} : {}),
       ...css,
     };
   }
@@ -248,7 +247,7 @@ export class RcsbFv3DComponent<T, R, L, S, U> extends React.Component<
     this.resize = (evt: MouseEvent<HTMLDivElement>) => {
       const rect: DOMRect | undefined = element.getBoundingClientRect();
       const x: number = evt.clientX - rect.left;
-      this.setState({ pfvScreenFraction: x / rect.width });
+      this.setState({pfvScreenFraction: x / rect.width});
     };
   }
 

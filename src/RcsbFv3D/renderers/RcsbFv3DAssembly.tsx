@@ -1,25 +1,27 @@
-import { RcsbFv3DAbstract } from "./RcsbFv3DAbstract";
-import { AssemblyTrajectoryParamsType } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/TrajectoryPresetProvider/AssemblyTrajectoryPresetProvider";
-import { RcsbFvAdditionalConfig } from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvModule/RcsbFvModuleInterface";
-import { InstanceSequenceConfig } from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvBuilder/RcsbFvInstanceBuilder";
-import { OperatorInfo } from "../../RcsbFvStructure/StructureViewerInterface";
+import {ViewerProps} from "@rcsb/rcsb-molstar/build/src/viewer";
+import {InstanceSequenceConfig} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvBuilder/RcsbFvInstanceBuilder";
+import {RcsbFvAdditionalConfig} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvModule/RcsbFvModuleInterface";
+import uniqid from "uniqid";
+
+import {AssemblyCallbackManagerFactory} from "../../RcsbFvSequence/SequenceViews/RcsbView/CallbackManagerFactoryImplementation/AssemblyCallbackManager";
+import {HelpLinkComponent} from "../../RcsbFvSequence/SequenceViews/RcsbView/Components/HelpLinkComponent";
+import {AssemblyPfvManagerFactory} from "../../RcsbFvSequence/SequenceViews/RcsbView/PfvManagerFactoryImplementation/AssemblyPfvManagerFactory";
+import {RcsbFvStructure} from "../../RcsbFvStructure/RcsbFvStructure";
+import {AssemblyBehaviourObserver} from "../../RcsbFvStructure/StructureViewerBehaviour/AssemblyBehaviour";
+import {OperatorInfo} from "../../RcsbFvStructure/StructureViewerInterface";
 import {
   LoadMolstarInterface,
   LoadMolstarReturnType,
 } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarActionManager";
-import { ViewerProps } from "@rcsb/rcsb-molstar/build/src/viewer";
-import { StructureViewer } from "../../RcsbFvStructure/StructureViewers/StructureViewer";
-import { MolstarManagerFactory } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarManagerFactory";
-import { RcsbFv3DCssConfig } from "../components";
-import uniqid from "uniqid";
-import { RcsbFvStructure } from "../../RcsbFvStructure/RcsbFvStructure";
-import { AssemblyPfvManagerFactory } from "../../RcsbFvSequence/SequenceViews/RcsbView/PfvManagerFactoryImplementation/AssemblyPfvManagerFactory";
-import { AssemblyCallbackManagerFactory } from "../../RcsbFvSequence/SequenceViews/RcsbView/CallbackManagerFactoryImplementation/AssemblyCallbackManager";
-import { AssemblyBehaviourObserver } from "../../RcsbFvStructure/StructureViewerBehaviour/AssemblyBehaviour";
-import { HelpLinkComponent } from "../../RcsbFvSequence/SequenceViews/RcsbView/Components/HelpLinkComponent";
-import { MolstarTools } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarUtils/MolstarTools";
+import {MolstarManagerFactory} from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarManagerFactory";
+import {MolstarAssemblyLoader} from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarUtils/MolstarAssemblyLoader";
+import {MolstarTools} from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarUtils/MolstarTools";
+import {AssemblyTrajectoryParamsType} from "../../RcsbFvStructure/StructureViewers/MolstarViewer/TrajectoryPresetProvider/AssemblyTrajectoryPresetProvider";
+import {StructureViewer} from "../../RcsbFvStructure/StructureViewers/StructureViewer";
+import {RcsbFv3DCssConfig} from "../components";
+import {RcsbFv3DAbstract} from "./RcsbFv3DAbstract";
+
 import getModelIdFromTrajectory = MolstarTools.getModelIdFromTrajectory;
-import { MolstarAssemblyLoader } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarUtils/MolstarAssemblyLoader";
 
 type RcsbFv3DAssemblyAdditionalConfig = RcsbFvAdditionalConfig & {
   operatorChangeCallback?: (operatorInfo: OperatorInfo) => void;
@@ -46,10 +48,10 @@ type AssemblyLoadMolstarType = LoadMolstarInterface<
   LoadMolstarReturnType
 >;
 export class RcsbFv3DAssembly extends RcsbFv3DAbstract<
-  { instanceSequenceConfig?: InstanceSequenceConfig },
+  {instanceSequenceConfig?: InstanceSequenceConfig},
   AssemblyLoadMolstarType,
   LoadMolstarReturnType,
-  { viewerElement: string | HTMLElement; viewerProps: Partial<ViewerProps> },
+  {viewerElement: string | HTMLElement; viewerProps: Partial<ViewerProps>},
   undefined
 > {
   constructor(params: RcsbFv3DAssemblyInterface) {

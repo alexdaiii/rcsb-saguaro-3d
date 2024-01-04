@@ -1,32 +1,32 @@
+import {ViewerProps} from "@rcsb/rcsb-molstar/build/src/viewer";
+import {RcsbFvTrackDataElementInterface} from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+import {RcsbFv} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFv";
+import {RcsbFvRowConfigInterface} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayTypes} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {Mat4} from "molstar/lib/mol-math/linear-algebra";
+
 import {
   RcsbFv3DCustom,
   RcsbFv3DCustomInterface,
 } from "../../RcsbFv3D/renderers/RcsbFv3DCustom";
-import { RcsbFvStructureConfigInterface } from "../../RcsbFvStructure/RcsbFvStructure";
 import {
   CustomViewInterface,
   FeatureBlockInterface,
   FeatureViewInterface,
 } from "../../RcsbFvSequence/SequenceViews/CustomView/CustomView";
-
-import { RegionSelectionInterface } from "../../RcsbFvState/RcsbFvSelectorManager";
+import {RegionSelectionInterface} from "../../RcsbFvState/RcsbFvSelectorManager";
+import {RcsbFvStateManager} from "../../RcsbFvState/RcsbFvStateManager";
+import {RcsbFvStructureConfigInterface} from "../../RcsbFvStructure/RcsbFvStructure";
 import {
   SaguaroRegionList,
   StructureViewerPublicInterface,
 } from "../../RcsbFvStructure/StructureViewerInterface";
-import { AlignmentManager } from "./AlignmentManager";
-import { Mat4 } from "molstar/lib/mol-math/linear-algebra";
 import {
   LoadMethod,
   LoadMolstarInterface,
   LoadMolstarReturnType,
 } from "../../RcsbFvStructure/StructureViewers/MolstarViewer/MolstarActionManager";
-import { ViewerProps } from "@rcsb/rcsb-molstar/build/src/viewer";
-import { RcsbFvStateManager } from "../../RcsbFvState/RcsbFvStateManager";
-import { RcsbFvRowConfigInterface } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
-import { RcsbFvDisplayTypes } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import { RcsbFvTrackDataElementInterface } from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
-import { RcsbFv } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFv";
+import {AlignmentManager} from "./AlignmentManager";
 
 const sequence_101m: string =
   "MVLSEGEWQLVLHVWAKVEADVAGHGQDILIRLFKSHPETLEKFDRVKHLKTEAEMKASEDLKKHGVTVLTALGAILKKKGHHEAELKPLAQSHATKHKIPIKYLEFISEAIIHVLHSRHPGNFGADAQGAMNKALELFRKDIAAKYKELGYQG";
@@ -287,7 +287,7 @@ const fvConfig: FeatureViewInterface<
       plugin.resetCamera();
     } else {
       if (sel_1ash != null)
-        pfv.addSelection({ elements: sel_1ash.regions, mode: "select" });
+        pfv.addSelection({elements: sel_1ash.regions, mode: "select"});
       if (sel_101m != null)
         pfv.addSelection({
           elements: sel_101m.regions.map((r) => ({
@@ -321,7 +321,7 @@ const fvConfig: FeatureViewInterface<
       );
     if (sel_1ash == null && sel_101m == null) pfv.clearSelection("hover");
     else if (sel_1ash)
-      pfv.setSelection({ elements: sel_1ash.regions, mode: "hover" });
+      pfv.setSelection({elements: sel_1ash.regions, mode: "hover"});
     else if (sel_101m)
       pfv.setSelection({
         elements: sel_101m.regions.map((r) => ({
@@ -357,7 +357,7 @@ const sequenceConfig = {
 
 const molstarConfig: RcsbFvStructureConfigInterface<
   LoadMolstarInterface<unknown, unknown>,
-  { viewerProps: Partial<ViewerProps> }
+  {viewerProps: Partial<ViewerProps>}
 > = {
   loadConfig: [
     {

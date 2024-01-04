@@ -1,4 +1,4 @@
-import { RcsbFv3DUniprot } from "../../RcsbFv3D/renderers/RcsbFv3DUniprot";
+import {RcsbFv3DUniprot} from "../../RcsbFv3D/renderers/RcsbFv3DUniprot";
 
 document.addEventListener("DOMContentLoaded", function (event) {
   const upAcc = "Q06124";

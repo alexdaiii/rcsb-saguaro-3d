@@ -1,166 +1,238 @@
 import {
-    AbstractPfvManager,
-    PfvManagerFactoryConfigInterface,
-    PfvManagerInterface,
-    PfvManagerFactoryInterface
-} from "../PfvManagerFactoryInterface";
+  AlignmentResponse,
+  TargetAlignment,
+} from "@rcsb/rcsb-api-tools/build/RcsbGraphQL/Types/Borrego/GqlTypes";
+import {PolymerEntityInstanceInterface} from "@rcsb/rcsb-saguaro-app/lib/RcsbCollectTools/DataCollectors/PolymerEntityInstancesCollector";
+import {ActionMethods} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvUI/Helper/ActionMethods";
+import {AlignmentRequestContextType} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvFactories/RcsbFvTrackFactory/TrackFactoryImpl/AlignmentTrackFactory";
 import {
-    RcsbFvAdditionalConfig,
-    RcsbFvModulePublicInterface
+  RcsbFvAdditionalConfig,
+  RcsbFvModulePublicInterface,
 } from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvModule/RcsbFvModuleInterface";
 
-import {
-    AlignmentRequestContextType
-} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvWeb/RcsbFvFactories/RcsbFvTrackFactory/TrackFactoryImpl/AlignmentTrackFactory";
-import {AlignmentResponse, TargetAlignment} from "@rcsb/rcsb-api-tools/build/RcsbGraphQL/Types/Borrego/GqlTypes";
-import {MsaRowTitleComponent} from "./MsaPfvComponents/MsaRowTitleComponent";
-import {MsaRowMarkComponent} from "./MsaPfvComponents/MsaRowMarkComponent";
-import {
-    PolymerEntityInstanceInterface
-} from "@rcsb/rcsb-saguaro-app/lib/RcsbCollectTools/DataCollectors/PolymerEntityInstancesCollector";
 import {DataContainer} from "../../../../utils/DataContainer";
-import {MsaUiSortComponent} from "./MsaPfvComponents/MsaUiSortComponent";
-import {ActionMethods} from "@rcsb/rcsb-saguaro-app/lib/RcsbFvUI/Helper/ActionMethods";
+import {parseEntityOrInstance} from "../../../../utils/RcsbIdParser";
+import {
+  AbstractPfvManager,
+  PfvManagerFactoryConfigInterface,
+  PfvManagerFactoryInterface,
+  PfvManagerInterface,
+} from "../PfvManagerFactoryInterface";
+import {MsaRowMarkComponent} from "./MsaPfvComponents/MsaRowMarkComponent";
+import {MsaRowTitleComponent} from "./MsaPfvComponents/MsaRowTitleComponent";
 import {MsaUiSequenceAlignmentDownload} from "./MsaPfvComponents/MsaUiSequenceAlignmentDownload";
+import {MsaUiSortComponent} from "./MsaPfvComponents/MsaUiSortComponent";
 import {MsaUiStructureDownload} from "./MsaPfvComponents/MsaUiStructureDownload";
-import {parseEntityOrInstance} from "../../../../utils/RcsbIdParser"
 
 export interface MsaPfvManagerInterface<T extends any[]> {
-    id:string;
-    alignmentResponseContainer: DataContainer<AlignmentResponse>;
-    pfvArgs: T;
-    buildMsaAlignmentFv(...args:[string, ...T, RcsbFvAdditionalConfig & ActionMethods.FvChangeConfigInterface]): Promise<RcsbFvModulePublicInterface>;
+  id: string;
+  alignmentResponseContainer: DataContainer<AlignmentResponse>;
+  pfvArgs: T;
+  buildMsaAlignmentFv(
+    ...args: [
+      string,
+      ...T,
+      RcsbFvAdditionalConfig & ActionMethods.FvChangeConfigInterface,
+    ]
+  ): Promise<RcsbFvModulePublicInterface>;
 }
 
-type MsaPfvManagerInterType<T extends any[]> = MsaPfvManagerInterface<T> & PfvManagerFactoryConfigInterface<{context: {id:string};}>
+type MsaPfvManagerInterType<T extends any[]> = MsaPfvManagerInterface<T> &
+  PfvManagerFactoryConfigInterface<{context: {id: string}}>;
 
-export class MsaPfvManagerFactory<T extends any[]> implements PfvManagerFactoryInterface<{id:string},{context: {id:string};}> {
-
-    getPfvManager(config: MsaPfvManagerInterType<T>): PfvManagerInterface {
-        return new MsaPfvManager(config);
-    }
-
+export class MsaPfvManagerFactory<T extends any[]>
+  implements PfvManagerFactoryInterface<{id: string}, {context: {id: string}}>
+{
+  getPfvManager(config: MsaPfvManagerInterType<T>): PfvManagerInterface {
+    return new MsaPfvManager(config);
+  }
 }
 
 type AlignmentDataType = {
-    pdb:{entryId:string;entityId:string;}|{entryId:string;instanceId:string;},
-    targetAlignment: TargetAlignment;
-    who: "user"|"auto";
+  pdb:
+    | {entryId: string; entityId: string}
+    | {entryId: string; instanceId: string};
+  targetAlignment: TargetAlignment;
+  who: "user" | "auto";
 };
 
-class MsaPfvManager<T extends any[]> extends AbstractPfvManager<{id:string},{context: {id:string} &  Partial<PolymerEntityInstanceInterface>;}>{
+class MsaPfvManager<T extends any[]> extends AbstractPfvManager<
+  {id: string},
+  {context: {id: string} & Partial<PolymerEntityInstanceInterface>}
+> {
+  private readonly config: MsaPfvManagerInterType<T>;
+  private module: RcsbFvModulePublicInterface;
 
-    private readonly config:MsaPfvManagerInterType<T>;
-    private module:RcsbFvModulePublicInterface;
+  constructor(config: MsaPfvManagerInterType<T>) {
+    super(config);
+    this.config = config;
+  }
 
-    constructor(config:MsaPfvManagerInterType<T>) {
-        super(config);
-        this.config = config;
-    }
-
-    async create(): Promise<RcsbFvModulePublicInterface | undefined> {
-        const args: [string, ...T, RcsbFvAdditionalConfig & ActionMethods.FvChangeConfigInterface] = [this.rcsbFvDivId, ...this.config.pfvArgs, {
-            ... this.additionalConfig,
-            boardConfig: this.boardConfigContainer.get(),
-            externalTrackBuilder:{
-                filterAlignments: (data: { alignments: AlignmentResponse; rcsbContext?: Partial<PolymerEntityInstanceInterface> }) => {
-                    const visAlignment = this.config.alignmentResponseContainer?.get()?.target_alignment
-                        ?.filter(ta=>ta?.target_id && this.config.stateManager.assemblyModelSate.getMap()?.has(ta.target_id));
-                    const otherAlignment = data.alignments.target_alignment
-                        ?.filter(ta=>ta?.target_id && !this.config.stateManager.assemblyModelSate.getMap()?.has(ta.target_id));
-                    return new Promise(resolve => resolve({
-                        ...data.alignments,
-                        target_alignment: (visAlignment ?? []).concat(otherAlignment ?? [])
-                    }));
-                }
-            },
-            trackConfigModifier: {
-                alignment: (alignmentContext: AlignmentRequestContextType, targetAlignment: TargetAlignment, alignmentResponse: AlignmentResponse, alignmentIndex: number) => new Promise((resolve)=>{
-                    const alignmentMod = {
-                        rowMark:{
-                            externalRowMark: {
-                                component:MsaRowMarkComponent,
-                                props:{
-                                    rowRef: parseEntityOrInstance(targetAlignment.target_id!),
-                                    stateManager: this.stateManager
-                                }
-                            },
-                            clickCallback:() => this.loadAlignment(alignmentContext,targetAlignment)
-                        },
-                        externalRowTitle: {
-                            rowTitleComponent:MsaRowTitleComponent,
-                            rowTitleAdditionalProps:{
-                                alignmentContext,
-                                targetAlignment,
-                                stateManager: this.stateManager,
-                                titleClick: ()=> this.loadAlignment(alignmentContext,targetAlignment)
-                            }
-                        },
-                        metadata:{
-                            targetId:targetAlignment.target_id
-                        }
-                    };
-                    if(this.additionalConfig?.trackConfigModifier?.alignment)
-                        this.additionalConfig.trackConfigModifier.alignment(alignmentContext, targetAlignment, alignmentResponse, alignmentIndex).then((rc)=>{
-                            resolve({
-                                ...rc,
-                                ...alignmentMod
-                            });
-                        });
-                    else
-                        resolve(alignmentMod);
-                })
-            },
-            beforeChangeCallback: () => {
-                this.config.pfvChangeCallback({context:{id:this.config.id}});
-            },
-            externalUiComponents: this.additionalConfig?.externalUiComponents?.replace ? {
-                replace: this.additionalConfig?.externalUiComponents?.replace
-            } : {
-                add: [{
-                    component: MsaUiSortComponent,
+  async create(): Promise<RcsbFvModulePublicInterface | undefined> {
+    const args: [
+      string,
+      ...T,
+      RcsbFvAdditionalConfig & ActionMethods.FvChangeConfigInterface,
+    ] = [
+      this.rcsbFvDivId,
+      ...this.config.pfvArgs,
+      {
+        ...this.additionalConfig,
+        boardConfig: this.boardConfigContainer.get(),
+        externalTrackBuilder: {
+          filterAlignments: (data: {
+            alignments: AlignmentResponse;
+            rcsbContext?: Partial<PolymerEntityInstanceInterface>;
+          }) => {
+            const visAlignment = this.config.alignmentResponseContainer
+              ?.get()
+              ?.target_alignment?.filter(
+                (ta) =>
+                  ta?.target_id &&
+                  this.config.stateManager.assemblyModelSate
+                    .getMap()
+                    ?.has(ta.target_id),
+              );
+            const otherAlignment = data.alignments.target_alignment?.filter(
+              (ta) =>
+                ta?.target_id &&
+                !this.config.stateManager.assemblyModelSate
+                  .getMap()
+                  ?.has(ta.target_id),
+            );
+            return new Promise((resolve) =>
+              resolve({
+                ...data.alignments,
+                target_alignment: (visAlignment ?? []).concat(
+                  otherAlignment ?? [],
+                ),
+              }),
+            );
+          },
+        },
+        trackConfigModifier: {
+          alignment: (
+            alignmentContext: AlignmentRequestContextType,
+            targetAlignment: TargetAlignment,
+            alignmentResponse: AlignmentResponse,
+            alignmentIndex: number,
+          ) =>
+            new Promise((resolve) => {
+              const alignmentMod = {
+                rowMark: {
+                  externalRowMark: {
+                    component: MsaRowMarkComponent,
                     props: {
-                        rcsbFvContainer: this.rcsbFvContainer,
-                        stateManager: this.stateManager
-                    }
-                },{
-                    component: MsaUiSequenceAlignmentDownload,
-                    props:{
-                        rcsbFvContainer: this.rcsbFvContainer,
-                        stateManager: this.stateManager
-                    }
-                },{
-                    component: MsaUiStructureDownload,
-                    props: {
-                        stateManager: this.stateManager
-                    }
-                }]}
-        }];
-        this.module = await this.config.buildMsaAlignmentFv(...args);
-        this.rcsbFvContainer.set(this.module);
-        await this.readyStateLoad();
-        return this.module;
-    }
-
-    private async readyStateLoad(): Promise<void> {
-        const alignments: AlignmentResponse = await this.rcsbFvContainer.get()!.getAlignmentResponse();
-        if(alignments.target_alignment && alignments.target_alignment.length > 0 && typeof alignments.target_alignment[0]?.target_id === "string"){
-            this.loadAlignment({queryId:this.config.id}, alignments.target_alignment[0], "auto");
-        }
-    }
-
-    private loadAlignment(alignmentContext: AlignmentRequestContextType, targetAlignment: TargetAlignment, who: "user"|"auto" = "user"):void {
-        if(typeof targetAlignment.target_id === "string") {
-            this.stateManager.next<"model-change",AlignmentDataType>({
-                type:"model-change",
-                view:"1d-view",
-                data:{
-                    pdb: parseEntityOrInstance(targetAlignment.target_id),
+                      rowRef: parseEntityOrInstance(targetAlignment.target_id!),
+                      stateManager: this.stateManager,
+                    },
+                  },
+                  clickCallback: () =>
+                    this.loadAlignment(alignmentContext, targetAlignment),
+                },
+                externalRowTitle: {
+                  rowTitleComponent: MsaRowTitleComponent,
+                  rowTitleAdditionalProps: {
+                    alignmentContext,
                     targetAlignment,
-                    who
-                }
-            });
-        }
-    }
+                    stateManager: this.stateManager,
+                    titleClick: () =>
+                      this.loadAlignment(alignmentContext, targetAlignment),
+                  },
+                },
+                metadata: {
+                  targetId: targetAlignment.target_id,
+                },
+              };
+              if (this.additionalConfig?.trackConfigModifier?.alignment)
+                this.additionalConfig.trackConfigModifier
+                  .alignment(
+                    alignmentContext,
+                    targetAlignment,
+                    alignmentResponse,
+                    alignmentIndex,
+                  )
+                  .then((rc) => {
+                    resolve({
+                      ...rc,
+                      ...alignmentMod,
+                    });
+                  });
+              else resolve(alignmentMod);
+            }),
+        },
+        beforeChangeCallback: () => {
+          this.config.pfvChangeCallback({context: {id: this.config.id}});
+        },
+        externalUiComponents: this.additionalConfig?.externalUiComponents
+          ?.replace
+          ? {
+              replace: this.additionalConfig?.externalUiComponents?.replace,
+            }
+          : {
+              add: [
+                {
+                  component: MsaUiSortComponent,
+                  props: {
+                    rcsbFvContainer: this.rcsbFvContainer,
+                    stateManager: this.stateManager,
+                  },
+                },
+                {
+                  component: MsaUiSequenceAlignmentDownload,
+                  props: {
+                    rcsbFvContainer: this.rcsbFvContainer,
+                    stateManager: this.stateManager,
+                  },
+                },
+                {
+                  component: MsaUiStructureDownload,
+                  props: {
+                    stateManager: this.stateManager,
+                  },
+                },
+              ],
+            },
+      },
+    ];
+    this.module = await this.config.buildMsaAlignmentFv(...args);
+    this.rcsbFvContainer.set(this.module);
+    await this.readyStateLoad();
+    return this.module;
+  }
 
+  private async readyStateLoad(): Promise<void> {
+    const alignments: AlignmentResponse = await this.rcsbFvContainer
+      .get()!
+      .getAlignmentResponse();
+    if (
+      alignments.target_alignment &&
+      alignments.target_alignment.length > 0 &&
+      typeof alignments.target_alignment[0]?.target_id === "string"
+    ) {
+      this.loadAlignment(
+        {queryId: this.config.id},
+        alignments.target_alignment[0],
+        "auto",
+      );
+    }
+  }
+
+  private loadAlignment(
+    alignmentContext: AlignmentRequestContextType,
+    targetAlignment: TargetAlignment,
+    who: "user" | "auto" = "user",
+  ): void {
+    if (typeof targetAlignment.target_id === "string") {
+      this.stateManager.next<"model-change", AlignmentDataType>({
+        type: "model-change",
+        view: "1d-view",
+        data: {
+          pdb: parseEntityOrInstance(targetAlignment.target_id),
+          targetAlignment,
+          who,
+        },
+      });
+    }
+  }
 }

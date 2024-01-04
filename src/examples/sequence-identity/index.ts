@@ -1,4 +1,4 @@
-import { RcsbFv3DSequenceIdentity } from "../../RcsbFv3D/renderers/RcsbFv3DSequenceIdentity";
+import {RcsbFv3DSequenceIdentity} from "../../RcsbFv3D/renderers/RcsbFv3DSequenceIdentity";
 
 document.addEventListener("DOMContentLoaded", function (event) {
   const groupId: string = "73_30";

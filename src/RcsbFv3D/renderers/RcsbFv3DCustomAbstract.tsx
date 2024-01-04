@@ -1,16 +1,17 @@
-import { createRoot, Root } from "react-dom/client";
-import { RcsbFv3DCssConfig } from "../components";
-import { RcsbFvStructureConfigInterface } from "../../RcsbFvStructure/RcsbFvStructure";
-import { PluginContext } from "molstar/lib/mol-plugin/context";
-import { CSSProperties } from "react";
-import { StructureViewerInterface } from "../../RcsbFvStructure/StructureViewerInterface";
-import { StructureViewerBehaviourObserverInterface } from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
-import { RcsbFvCustomSequenceInterface } from "../../RcsbFvSequence/RcsbFvCustomSequence";
+import {PluginContext} from "molstar/lib/mol-plugin/context";
+import {CSSProperties} from "react";
+import {Root, createRoot} from "react-dom/client";
+
 import {
   EventType,
   RcsbFvCustomContextManager,
 } from "../../RcsbFvContextManager";
-import { RcsbFv3DCustomComponent } from "../components";
+import {RcsbFvCustomSequenceInterface} from "../../RcsbFvSequence/RcsbFvCustomSequence";
+import {RcsbFvStructureConfigInterface} from "../../RcsbFvStructure/RcsbFvStructure";
+import {StructureViewerBehaviourObserverInterface} from "../../RcsbFvStructure/StructureViewerBehaviourInterface";
+import {StructureViewerInterface} from "../../RcsbFvStructure/StructureViewerInterface";
+import {RcsbFv3DCssConfig} from "../components";
+import {RcsbFv3DCustomComponent} from "../components";
 
 export interface RcsbFv3DCustomAbstractInterface<R, L, S> {
   elementId: string;
@@ -108,7 +109,7 @@ export abstract class RcsbFv3DCustomAbstract<R, L, S> {
   }
 
   public pluginCall(f: (plugin: PluginContext) => void) {
-    this.ctxManager.next({ eventType: EventType.PLUGIN_CALL, eventData: f });
+    this.ctxManager.next({eventType: EventType.PLUGIN_CALL, eventData: f});
   }
 
   private fullScreen(mode: "on" | "off"): void {

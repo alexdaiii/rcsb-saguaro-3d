@@ -1,13 +1,14 @@
-import { RcsbFv3DAssembly } from "../../RcsbFv3D/renderers/RcsbFv3DAssembly";
 import {
   AlignmentResponse,
   AnnotationFeatures,
   Type,
 } from "@rcsb/rcsb-api-tools/build/RcsbGraphQL/Types/Borrego/GqlTypes";
-import { PolymerEntityInstanceInterface } from "@rcsb/rcsb-saguaro-app/lib/RcsbCollectTools/DataCollectors/PolymerEntityInstancesCollector";
-import { RcsbFvRowConfigInterface } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
-import { RcsbFvDisplayTypes } from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import { RcsbFvTrackDataElementInterface } from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+import {PolymerEntityInstanceInterface} from "@rcsb/rcsb-saguaro-app/lib/RcsbCollectTools/DataCollectors/PolymerEntityInstancesCollector";
+import {RcsbFvTrackDataElementInterface} from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+import {RcsbFvRowConfigInterface} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayTypes} from "@rcsb/rcsb-saguaro/lib/RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+
+import {RcsbFv3DAssembly} from "../../RcsbFv3D/renderers/RcsbFv3DAssembly";
 
 document.addEventListener("DOMContentLoaded", function (event) {
   function getJsonFromUrl() {
@@ -21,9 +22,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     return result;
   }
 
-  const args: { pdbId: string } = getJsonFromUrl().pdbId
+  const args: {pdbId: string} = getJsonFromUrl().pdbId
     ? getJsonFromUrl()
-    : { pdbId: "1A6D" };
+    : {pdbId: "1A6D"};
   const defaultAsymId = "A";
   const config = {
     entryId: args.pdbId,
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     additionalConfig: {
       boardConfig: {
         elementClickCallback: (
-          e?: RcsbFvTrackDataElementInterface & { type?: string },
+          e?: RcsbFvTrackDataElementInterface & {type?: string},
         ) => {
           console.log(`Element clicked ${e?.type}`);
         },

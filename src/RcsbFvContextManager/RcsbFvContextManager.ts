@@ -1,8 +1,9 @@
-import { Subject, Subscription } from "rxjs";
-import { RcsbFvStructureConfigInterface } from "../RcsbFvStructure/RcsbFvStructure";
-import { RcsbFvSequenceInterface } from "../RcsbFvSequence/RcsbFvSequence";
-import { PluginContext } from "molstar/lib/mol-plugin/context";
-import { EventType } from "./utils";
+import {PluginContext} from "molstar/lib/mol-plugin/context";
+import {Subject, Subscription} from "rxjs";
+
+import {RcsbFvSequenceInterface} from "../RcsbFvSequence/RcsbFvSequence";
+import {RcsbFvStructureConfigInterface} from "../RcsbFvStructure/RcsbFvStructure";
+import {EventType} from "./utils";
 
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface<T, R, S, U> {

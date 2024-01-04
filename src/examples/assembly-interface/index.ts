@@ -1,5 +1,6 @@
-import { RcsbFv3DAssembly } from "../../RcsbFv3D/renderers/RcsbFv3DAssembly";
-import { RcsbFvTrackDataElementInterface } from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+import {RcsbFvTrackDataElementInterface} from "@rcsb/rcsb-saguaro/lib/RcsbDataManager/RcsbDataManager";
+
+import {RcsbFv3DAssembly} from "../../RcsbFv3D/renderers/RcsbFv3DAssembly";
 
 document.addEventListener("DOMContentLoaded", function (event) {
   function getJsonFromUrl() {
@@ -13,9 +14,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     return result;
   }
 
-  const args: { pdbId: string } = getJsonFromUrl().pdbId
+  const args: {pdbId: string} = getJsonFromUrl().pdbId
     ? getJsonFromUrl()
-    : { pdbId: "4hhb" };
+    : {pdbId: "4hhb"};
 
   const sequenceConfig = {
     entryId: args.pdbId,
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     additionalConfig: {
       boardConfig: {
         elementClickCallback: (
-          e?: RcsbFvTrackDataElementInterface & { type?: string },
+          e?: RcsbFvTrackDataElementInterface & {type?: string},
         ) => {
           console.log(`Element clicked ${e?.type}`);
         },
